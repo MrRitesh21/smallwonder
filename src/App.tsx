@@ -3,22 +3,23 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Programs from "./pages/Programs";
-import GalleryPage from "./pages/GalleryPage";
-import ContactPage from "./pages/ContactPage";
-import Admin from "./pages/Admin";
-import NotFound from "./pages/NotFound";
+import { lazy, Suspense, useState, useEffect } from "react";
+import LoadingScreen from "./components/LoadingScreen";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import LoadingScreen from "./components/LoadingScreen";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingButtons from "./components/FloatingButtons";
 import LeadFormDialog from "./components/LeadFormDialog";
 import AdmissionFormDialog from "./components/AdmissionFormDialog";
 import PageTransition from "./components/PageTransition";
-import { useState, useEffect } from "react";
+
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Programs = lazy(() => import("./pages/Programs"));
+const GalleryPage = lazy(() => import("./pages/GalleryPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const Admin = lazy(() => import("./pages/Admin"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
@@ -45,9 +46,10 @@ const App = () => {
           <FloatingButtons />
           <LeadFormDialog />
           <AdmissionFormDialog open={admissionFormOpen} onOpenChange={setAdmissionFormOpen} />
-          <Routes>
-            {/* Admin route without layout */}
-            <Route path="/admin" element={<Admin />} />
+          <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div></div>}>
+            <Routes>
+              {/* Admin route without layout */}
+              <Route path="/admin" element={<Admin />} />
             
             {/* Main routes with layout */}
             <Route path="/" element={
@@ -100,6 +102,7 @@ const App = () => {
             {/* 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </Suspense>
         </BrowserRouter>
       </TooltipProvider>
     </QueryClientProvider>

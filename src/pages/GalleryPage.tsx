@@ -3,7 +3,7 @@ import Testimonials from '@/components/Testimonials';
 
 const GalleryPage = () => {
   return (
-    <div className="min-h-screen pt-28">
+    <div className="min-h-screen pt-0">
       <Gallery />
       <Testimonials />
     </div>

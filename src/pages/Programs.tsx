@@ -3,7 +3,7 @@ import Activities from '@/components/Activities';
 
 const Programs = () => {
   return (
-    <div className="min-h-screen pt-28">
+    <div className="min-h-screen pt-20">
       <Services />
       <Activities />
     </div>

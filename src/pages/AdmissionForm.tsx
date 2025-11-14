@@ -74,7 +74,13 @@ const AdmissionForm = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'phone' || name === 'emergencyPhone') {
+      const numericValue = value.replace(/\D/g, '').slice(0, 10);
+      setFormData({ ...formData, [name]: numericValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   return (
@@ -190,6 +196,9 @@ const AdmissionForm = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
+                      pattern="[0-9]{10}"
+                      maxLength={10}
+                      placeholder="10-digit mobile number"
                       className="mt-1"
                     />
                   </div>
@@ -267,6 +276,9 @@ const AdmissionForm = () => {
                       value={formData.emergencyPhone}
                       onChange={handleChange}
                       required
+                      pattern="[0-9]{10}"
+                      maxLength={10}
+                      placeholder="10-digit mobile number"
                       className="mt-1"
                     />
                   </div>
