@@ -23,7 +23,7 @@ const Services = () => {
     {
       title: 'NextGen Innovation',
       icon: Lightbulb,
-      color: 'from-primary to-primary/70',
+      color: 'from-yellow-400 to-yellow-400/70',
       points: [
         { icon: BookOpen, text: 'Well Planned Curriculum' },
         { icon: BookOpen, text: 'Top Library' },
@@ -34,7 +34,7 @@ const Services = () => {
     {
       title: 'Total Health & Hygiene',
       icon: Heart,
-      color: 'from-primary to-primary/70',
+      color: 'from-green-500 to-green-500/70',
       points: [
         { icon: Stethoscope, text: 'Health Assessment by Expert' },
         { icon: Gamepad2, text: '100% Non-Toxic Safe Toys' },

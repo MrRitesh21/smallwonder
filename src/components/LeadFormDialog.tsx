@@ -39,6 +39,15 @@ const LeadFormDialog = () => {
       return;
     }
 
+    if (formData.phone.length !== 10) {
+      toast({
+        title: "Invalid Phone Number",
+        description: "Please enter a valid 10-digit mobile number",
+        variant: "destructive",
+      });
+      return;
+    }
+
     // Store in localStorage (later connect to Supabase)
     const leads = JSON.parse(localStorage.getItem('leads') || '[]');
     leads.push({ ...formData, timestamp: new Date().toISOString() });
@@ -90,9 +99,14 @@ const LeadFormDialog = () => {
             <Input
               id="phone"
               type="tel"
-              placeholder="Enter phone number"
+              placeholder="10-digit mobile number"
               value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              onChange={(e) => {
+                const numericValue = e.target.value.replace(/\D/g, '').slice(0, 10);
+                setFormData({ ...formData, phone: numericValue });
+              }}
+              pattern="[0-9]{10}"
+              maxLength={10}
               className="mt-1"
               required
             />

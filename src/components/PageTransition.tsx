@@ -7,27 +7,47 @@ interface PageTransitionProps {
 
 const PageTransition = ({ children }: PageTransitionProps) => {
   const [isVisible, setIsVisible] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    setIsExiting(true);
     setIsVisible(false);
-    const timer = setTimeout(() => {
+    
+    const exitTimer = setTimeout(() => {
+      setIsExiting(false);
+    }, 300);
+    
+    const enterTimer = setTimeout(() => {
       setIsVisible(true);
-    }, 50);
+    }, 350);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(exitTimer);
+      clearTimeout(enterTimer);
+    };
   }, [location.pathname]);
 
   return (
-    <div
-      className={`transition-all duration-500 ease-out ${
-        isVisible
-          ? 'opacity-100 translate-x-0'
-          : 'opacity-0 translate-x-4'
-      }`}
-    >
-      {children}
-    </div>
+    <>
+      {/* Exit overlay */}
+      <div
+        className={`fixed inset-0 bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 z-50 pointer-events-none transition-all duration-300 ${
+          isExiting ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+      
+      {/* Page content */}
+      <div
+        className={`transition-all duration-700 ease-out ${
+          isVisible
+            ? 'opacity-100 translate-y-0 scale-100'
+            : 'opacity-0 translate-y-8 scale-95'
+        }`}
+      >
+        {children}
+      </div>
+    </>
   );
 };
 

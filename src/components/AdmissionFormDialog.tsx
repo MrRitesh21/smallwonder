@@ -57,7 +57,13 @@ const AdmissionFormDialog = ({ open, onOpenChange }: AdmissionFormDialogProps) =
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === 'phone') {
+      const numericValue = value.replace(/\D/g, '').slice(0, 10);
+      setFormData({ ...formData, [name]: numericValue });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   return (
@@ -123,8 +129,10 @@ const AdmissionFormDialog = ({ open, onOpenChange }: AdmissionFormDialogProps) =
                 value={formData.phone}
                 onChange={handleChange}
                 required
+                pattern="[0-9]{10}"
+                maxLength={10}
                 className="mt-1 border-primary/20 focus:border-primary"
-                placeholder="Your phone number"
+                placeholder="10-digit mobile number"
               />
             </div>
           </div>

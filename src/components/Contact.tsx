@@ -67,8 +67,13 @@ const Contact = () => {
                   required
                   type="tel"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  placeholder="+91 9876543212"
+                  onChange={(e) => {
+                    const numericValue = e.target.value.replace(/\D/g, '').slice(0, 10);
+                    setFormData({ ...formData, phone: numericValue });
+                  }}
+                  pattern="[0-9]{10}"
+                  maxLength={10}
+                  placeholder="10-digit mobile number"
                   className="rounded-xl border-2 focus:border-primary"
                 />
               </div>
